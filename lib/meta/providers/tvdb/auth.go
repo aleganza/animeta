@@ -1,8 +1,8 @@
 package tvdb
 
 import (
-	"anime-meta/lib/core/env"
-	"anime-meta/lib/core/fetch"
+	"animeta/lib/core/env"
+	"animeta/lib/core/fetch"
 	"bytes"
 	"encoding/json"
 	"fmt"

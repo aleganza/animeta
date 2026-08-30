@@ -1,9 +1,9 @@
 package main
 
 import (
-	"anime-meta/lib/core/env"
-	"anime-meta/lib/media"
-	"anime-meta/lib/tvdb"
+	"animeta/lib/core/env"
+	"animeta/lib/media"
+	"animeta/lib/meta/providers/tvdb"
 	"fmt"
 )
 
@@ -16,7 +16,9 @@ func main() {
 		return
 	}
 
-	series := media.FetchSeries(&tvdbClient, "252322")
+	media.NewClient(&tvdbClient)
+	
+	series, err := media.FetchSeries("252322")
 
 	// movie, err := client.FetchMovie("791")
 	// if err != nil {

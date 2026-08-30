@@ -1,4 +1,4 @@
-module anime-meta
+module animeta
 
 go 1.25.0
 

@@ -1,7 +1,7 @@
 package tvdb
 
 import (
-	"anime-meta/lib/core/fetch"
+	"animeta/lib/core/fetch"
 )
 
 func fetchWrapper[T any](c *Client, url string) (T, error) {

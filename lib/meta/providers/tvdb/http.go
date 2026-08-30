@@ -1,7 +1,7 @@
 package tvdb
 
 import (
-	"anime-meta/lib/core/fetch"
+	"animeta/lib/core/fetch"
 	"io"
 	"net/http"
 )
@@ -15,7 +15,7 @@ func (c *Client) TvdbAuthenticatedFetch(method, path string, body io.Reader) (*h
 	if err != nil {
 		return nil, err
 	}
-	
+
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 
 	resp, err := fetch.Do(req)

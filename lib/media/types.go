@@ -1,5 +1,11 @@
 package media
 
+import "animeta/lib/meta/providers/tvdb"
+
+type Client struct {
+	tvdb *tvdb.Client
+}
+
 type Media struct {
 	Titles Titles
 	// Episodes    map[string]Episode

@@ -1,24 +1,24 @@
 package threads
 
-type ParallelFetchFunc struct {
+type ParallelFetchFunc[T any] struct {
 	Name string
-	Func func() (any, error)
+	Func func() (T, error)
 }
 
-type ParallelFetchResult struct {
+type ParallelFetchResult[T any] struct {
 	Name string
-	Body any
+	Body T
 	Err  error
 }
 
-func RunParallel(funcs ...ParallelFetchFunc) []ParallelFetchResult {
-	ch := make(chan ParallelFetchResult, len(funcs))
+func RunParallel[T any](funcs ...ParallelFetchFunc[T]) []ParallelFetchResult[T] {
+	ch := make(chan ParallelFetchResult[T], len(funcs))
 
 	for _, fn := range funcs {
-		go func(fn ParallelFetchFunc) {
+		go func(fn ParallelFetchFunc[T]) {
 			data, err := fn.Func()
 
-			ch <- ParallelFetchResult{
+			ch <- ParallelFetchResult[T]{
 				Name: fn.Name,
 				Body: data,
 				Err:  err,
@@ -26,7 +26,7 @@ func RunParallel(funcs ...ParallelFetchFunc) []ParallelFetchResult {
 		}(fn)
 	}
 
-	results := make([]ParallelFetchResult, 0, len(funcs))
+	results := make([]ParallelFetchResult[T], 0, len(funcs))
 
 	for range funcs {
 		results = append(results, <-ch)
