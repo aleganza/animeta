@@ -7,15 +7,22 @@ type Client struct {
 }
 
 type Media struct {
-	Titles Titles
-	// Episodes    map[string]Episode
+	Titles   []tvdb.Translation
+	Episodes map[string]Episode
 	// EpisodeCount int
 	// SpecialCount int
 	// Images      []Image
 	// Mappings    Mappings
 }
 
-type Titles map[string]string
+// type Titles map[string]string
+
+// type Title struct {
+// 	Name      string
+// 	Language  string
+// 	IsPrimary bool
+// 	IsAlias   bool
+// }
 
 type Episode struct {
 	SeasonNumber          int

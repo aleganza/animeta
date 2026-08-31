@@ -67,99 +67,99 @@ type Episode struct {
 	Year           string
 }
 
-type TvdbSeriesExtendedResponse struct {
+type TvdbResponse[T any] struct {
 	Status string
-	Data   struct {
-		Id           uint
-		Name         string
-		Slug         string
-		Image        string
-		Translations Translations
-		Aliases      []Alias
-
-		FirstAired string
-		LastAired  string
-		NextAired  string
-
-		Score uint
-
-		Status MediaStatus
-
-		OriginalCountry  string
-		OriginalLanguage string
-
-		AverageRuntime uint
-
-		Artworks []Artwork
-		Episodes []Episode
-
-		Overview string
-		Year     string
-	}
+	Data   T
 }
 
-type TvdbSeriesEpisodesResponse struct {
-	Status string
-	Data   struct {
-		Series struct {
-			Id   uint
-			Name string
-		}
-		Episodes []Episode
-	}
+type TvdbSeriesExtendedResponse = TvdbResponse[TvdbSeriesExtendedData]
+type TvdbSeriesEpisodesResponse = TvdbResponse[TvdbSeriesEpisodesData]
+type TvdbMovieResponse = TvdbResponse[TvdbMovieData]
+
+type TvdbSeriesExtendedData struct {
+	Id           uint
+	Name         string
+	Slug         string
+	Image        string
+	Translations Translations
+	Aliases      []Alias
+
+	FirstAired string
+	LastAired  string
+	NextAired  string
+
+	Score uint
+
+	Status MediaStatus
+
+	OriginalCountry  string
+	OriginalLanguage string
+
+	AverageRuntime uint
+
+	Artworks []Artwork
+	Episodes []Episode
+
+	Overview string
+	Year     string
 }
 
-type TvdbMovieResponse struct {
-	Status string
-	Data   struct {
-		Id           uint
-		Name         string
-		Slug         string
-		Image        string
-		Translations Translations
-		Aliases      []Alias
-
-		Score   uint
-		Runtime uint
-
-		Status MediaStatus
-
-		LastUpdated string
-		Year        string
-
-		Trailers []struct {
-			Id       uint
-			Name     string
-			URL      string
-			Language string
-			Runtime  uint
-		}
-
-		Genres []struct {
-			Id   uint
-			Name string
-			Slug string
-		}
-
-		Releases []struct {
-			Country string
-			Date    string
-			Detail  *string
-		}
-
-		OriginalCountry  string
-		OriginalLanguage string
-
-		Studios []struct {
-			Id   uint
-			Name string
-		}
-
-		Artworks []Artwork
-
-		Budget    string
-		BoxOffice string
-
-		Overview string
+type TvdbSeriesEpisodesData struct {
+	Series struct {
+		Id   uint
+		Name string
 	}
+	Episodes []Episode
+}
+
+type TvdbMovieData struct {
+	Id           uint
+	Name         string
+	Slug         string
+	Image        string
+	Translations Translations
+	Aliases      []Alias
+
+	Score   uint
+	Runtime uint
+
+	Status MediaStatus
+
+	LastUpdated string
+	Year        string
+
+	Trailers []struct {
+		Id       uint
+		Name     string
+		URL      string
+		Language string
+		Runtime  uint
+	}
+
+	Genres []struct {
+		Id   uint
+		Name string
+		Slug string
+	}
+
+	Releases []struct {
+		Country string
+		Date    string
+		Detail  *string
+	}
+
+	OriginalCountry  string
+	OriginalLanguage string
+
+	Studios []struct {
+		Id   uint
+		Name string
+	}
+
+	Artworks []Artwork
+
+	Budget    string
+	BoxOffice string
+
+	Overview string
 }
