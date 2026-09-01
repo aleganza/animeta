@@ -7,7 +7,7 @@ type Client struct {
 }
 
 type Media struct {
-	Titles   []tvdb.Translation
+	// Titles   ?????????
 	Episodes map[string]Episode
 	// EpisodeCount int
 	// SpecialCount int
@@ -25,28 +25,18 @@ type Media struct {
 // }
 
 type Episode struct {
-	SeasonNumber          int
-	EpisodeNumber         int
-	AbsoluteEpisodeNumber int
+	TvdbId int
 
-	Title map[string]string
+	SeasonNumber int
+	// Girls und Panzer has 5.5
+	Number       int
 
-	AirDate    string
-	AirDateUTC string
-
-	Runtime  int
-	Overview string
-	Image    string
-
-	Episode string
-
-	AnidbEID int
-	Length   int
-	Airdate  string
-	Rating   string
-	Summary  string
-
-	FinaleType string
+	Thumbnail string
+	Title     string
+	Overview  string
+	Aired     string
+	Runtime   int
+	Year      string
 }
 
 type Image struct {

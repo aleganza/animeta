@@ -12,17 +12,16 @@ func FetchSeries(id string) ([]Media, error) {
 		return nil, err
 	}
 
-
 	var (
-		tvdbExtended tvdb.TvdbSeriesExtendedResponse
+		tvdbTranslations tvdb.TvdbSeriesTranslationsResponse
 		tvdbEpisodes tvdb.TvdbSeriesEpisodesResponse
 	)
 
-	g := errgroup.Group
+	var g errgroup.Group
 
 	g.Go(func() error {
 		var err error
-		tvdbExtended, err = client.tvdb.FetchSeriesExtended(id)
+		tvdbTranslations, err = client.tvdb.FetchSeriesTranslations(id)
 		return err
 	})
 
@@ -38,11 +37,11 @@ func FetchSeries(id string) ([]Media, error) {
 
 	var series Media
 	
-	series.Titles = tvdbExtended.Data.Translations.NameTranslations
+	// series.Titles = tvdbTranslations.Data.Translations.NameTranslations
 
-	for _, episode := range tvdbEpisodes.Data.Episodes {
+	// for _, episode := range tvdbEpisodes.Data.Episodes {
 		
-	}
+	// }
 
 	return nil, nil
 }

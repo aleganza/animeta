@@ -24,8 +24,8 @@ func fetchWrapper[T any](c *Client, url string) (TvdbResponse[T], error) {
 	return out, nil
 }
 
-func (c *Client) FetchSeriesExtended(id string) (TvdbSeriesExtendedResponse, error) {
-	return fetchWrapper[TvdbSeriesExtendedData](c, BaseURL+"/series/"+id+"/extended?meta=translations&short=false")
+func (c *Client) FetchSeriesTranslations(id string) (TvdbSeriesTranslationsResponse, error) {
+	return fetchWrapper[TvdbSeriesTranslationsData](c, BaseURL+"/series/"+id+"/extended?meta=translations&short=true")
 }
 
 func (c *Client) FetchSeriesEpisodes(id string) (TvdbSeriesEpisodesResponse, error) {
