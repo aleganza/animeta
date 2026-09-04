@@ -4,6 +4,9 @@ type CacheEntry struct {
 	meta struct {
 		key string
 	}
-	data any
+	data CacheEntryData
 }
+
+type CacheEntryData any
+
 type Cache []CacheEntry

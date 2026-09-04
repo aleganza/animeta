@@ -2,30 +2,35 @@ package cache_internal
 
 import "fmt"
 
-// must acquire mutex before calling
-func isEntryKeyAvailable(key string) error {
-	for _, entry := range cache {
+func findEntry(key string) (int, bool) {
+	for i, entry := range cache {
 		if entry.meta.key == key {
-			return fmt.Errorf(`key "%s" is already occupied`, key)
+			return i, true
 		}
 	}
 
-	return nil
+	return -1, false
+}
+
+func doesEntryKeyExist(key string) bool {
+	_, ok := findEntry(key)
+
+	return ok
 }
 
 func RegisterEntry(key string) error {
 	mu.Lock()
 	defer mu.Unlock()
-	
-	if err := isEntryKeyAvailable(key); err != nil {
-		return err
+
+	if keyExists := doesEntryKeyExist(key); keyExists {
+		return fmt.Errorf(`cache with key "%s" is already occupied`, key)
 	}
-	
+
 	var entry CacheEntry
 	entry.meta.key = key
-	
+
 	cache = append(cache, entry)
-	
+
 	return nil
 }
 
