@@ -1,4 +1,4 @@
-package mapping_providers
+package anime_mappings
 
 func (p MappingProvider) IsValid() bool {
 	switch p {
@@ -19,6 +19,19 @@ func (p MappingProvider) IsValid() bool {
 		return true
 	default:
 		return false
+	}
+}
+
+// these providers' media require additional information/parsing, e.g. season id for tvdb 
+func (p MappingProvider) isMappingsRetrievalHandled() bool {
+	switch p {
+	case
+		MappingProviderIMDb,
+		MappingProviderTMDB,
+		MappingProviderTVDB:
+		return false
+	default:
+		return true
 	}
 }
 

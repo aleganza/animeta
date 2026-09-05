@@ -3,7 +3,7 @@ package main
 import (
 	"animeta/lib/core/env"
 	"animeta/lib/media"
-	"animeta/lib/meta/providers/tvdb"
+	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 	"fmt"
 )
 

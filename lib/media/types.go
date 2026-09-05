@@ -1,6 +1,6 @@
 package media
 
-import "animeta/lib/meta/providers/tvdb"
+import "animeta/lib/data_sources/anime_meta/providers/tvdb"
 
 type Client struct {
 	tvdb *tvdb.Client

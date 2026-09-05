@@ -1,12 +1,9 @@
-package mappings
+package anime_mappings
 
 import (
 	"animeta/lib/core/fetch"
-	mapping_providers "animeta/lib/mappings/providers"
 	"fmt"
 )
-
-// not convinced about filename
 
 func fetchWrapper[T any](path string) (T, error) {
 	resp, err := fetch.ExecuteRequest("GET", BaseUrl+path, nil)
@@ -29,7 +26,7 @@ func FetchAnimeListFull() ([]AnimeListFullData, error) {
 	return fetchWrapper[[]AnimeListFullData]("anime-list-full.json")
 }
 
-func FetchIndicesByProviderName(provider mapping_providers.MappingProvider) (AnimeListIndex, error) {
+func FetchIndicesByProviderName(provider MappingProvider) (AnimeListIndex, error) {
 	if !provider.IsValid() {
 		return AnimeListIndex{}, fmt.Errorf(`"provider" argument should be of type MappingProvider`)
 	}

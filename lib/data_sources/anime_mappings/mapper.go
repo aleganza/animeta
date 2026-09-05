@@ -1,14 +1,16 @@
-package mappings
+package anime_mappings
 
 import (
-	"animeta/lib/mappings/providers"
 	"fmt"
 )
 
-// TODO: should take care of those provider who dont only use ids but seasons too
-func FetchMappingsFromProviderId(provider mapping_providers.MappingProvider, id string) (AnimeListFullData, error) {
+func GetMappingsFromProviderId(provider MappingProvider, id string) (AnimeListFullData, error) {
 	if !provider.IsValid() {
-		return AnimeListFullData{}, fmt.Errorf(`"provider" argument should be of type MappingProvider`)
+		return AnimeListFullData{}, fmt.Errorf(`"%s" provider should be of type MappingProvider`, provider)
+	}
+
+	if !provider.isMappingsRetrievalHandled() {
+		return AnimeListFullData{}, fmt.Errorf(`"%s" provider not handled`, provider)
 	}
 
 	indices, err := FetchIndicesByProviderName(provider)

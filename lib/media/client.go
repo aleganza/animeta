@@ -1,7 +1,7 @@
 package media
 
 import (
-	"animeta/lib/meta/providers/tvdb"
+	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 	"fmt"
 )
 

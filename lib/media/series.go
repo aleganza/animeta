@@ -1,11 +1,10 @@
 package media
 
 import (
-	"animeta/lib/meta/providers/tvdb"
+	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 
 	"golang.org/x/sync/errgroup"
 )
-
 
 func FetchSeries(id string) ([]Media, error) {
 	if err := clientGate(); err != nil {
@@ -14,7 +13,7 @@ func FetchSeries(id string) ([]Media, error) {
 
 	var (
 		tvdbTranslations tvdb.TvdbSeriesTranslationsResponse
-		tvdbEpisodes tvdb.TvdbSeriesEpisodesResponse
+		tvdbEpisodes     tvdb.TvdbSeriesEpisodesResponse
 	)
 
 	var g errgroup.Group
@@ -36,11 +35,11 @@ func FetchSeries(id string) ([]Media, error) {
 	}
 
 	var series Media
-	
+
 	// series.Titles = tvdbTranslations.Data.Translations.NameTranslations
 
 	// for _, episode := range tvdbEpisodes.Data.Episodes {
-		
+
 	// }
 
 	return nil, nil
