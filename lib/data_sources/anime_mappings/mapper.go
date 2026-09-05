@@ -4,7 +4,15 @@ import (
 	"fmt"
 )
 
-func GetMappingsFromProviderId(provider MappingProvider, id string) (AnimeListFullData, error) {
+func GetMappingsFromAniListId(aniListId string) (AnimeListFullData, error) {
+	return getMappingsFromProviderId(MappingProviderAniList, aniListId)
+}
+
+func GetMappingsFromMALId(MALId string) (AnimeListFullData, error) {
+	return getMappingsFromProviderId(MappingProviderMAL, MALId)
+}
+
+func getMappingsFromProviderId(provider MappingProvider, id string) (AnimeListFullData, error) {
 	if !provider.IsValid() {
 		return AnimeListFullData{}, fmt.Errorf(`"%s" provider should be of type MappingProvider`, provider)
 	}
