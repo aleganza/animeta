@@ -1,6 +1,8 @@
 package endpoint_root
 
-import "net/http"
+import (
+	"net/http"
+)
 
 const banner = `animeta`
 

@@ -19,13 +19,20 @@ func main() {
 		port = 8080
 	}
 
-	http.HandleFunc("/", endpoint_root.Handler)
-	http.HandleFunc("/health", endpoint_health.Handler)
+	mux := http.NewServeMux()
 
-	http.HandleFunc("GET /meta/", endpoint_meta.Handler)
-	http.HandleFunc("GET /meta/{provider}", endpoint_meta.Handler)
-	http.HandleFunc("GET /meta/{provider}/{id}", endpoint_meta.Handler)
+	mux.HandleFunc("/", endpoint_root.Handler)
+	mux.HandleFunc("/health", endpoint_health.Handler)
+
+	mux.HandleFunc("GET /meta", endpoint_meta.Handler)
+	mux.HandleFunc("GET /meta/{provider}", endpoint_meta.Handler)
+	mux.HandleFunc("GET /meta/{provider}/{id}", endpoint_meta.Handler)
 
 	log.Printf("Server listening on :%d...", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+
+	handler := stripTrailingSlash(mux)
+	log.Fatal(http.ListenAndServe(
+		fmt.Sprintf(":%d", port),
+		handler,
+	))
 }

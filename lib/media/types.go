@@ -2,9 +2,28 @@ package media
 
 import "animeta/lib/data_sources/anime_meta/providers/tvdb"
 
+// client
+
 type Client struct {
 	tvdb *tvdb.Client
 }
+
+// media providers
+
+type Provider string
+
+const (
+	ProviderAniList Provider = "anilist"
+	ProviderMAL     Provider = "mal"
+)
+
+// needed to list them
+var Providers = []Provider{
+	ProviderAniList,
+	ProviderMAL,
+}
+
+// media
 
 type Media struct {
 	// Titles   ?????????
