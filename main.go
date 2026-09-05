@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+// TODO: to be removed
+
 func main() {
 	env.Init()
 

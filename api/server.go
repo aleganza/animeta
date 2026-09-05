@@ -1,20 +1,16 @@
 package main
 
 import (
-	"encoding/json"
+	"animeta/api/endpoint/health"
+	endpoint_root "animeta/api/endpoint/root"
+	"log"
 	"net/http"
-	"os"
 )
 
 func main() {
-	http.HandleFunc("/api/users", usersHandler)
-	http.ListenAndServe(":" + os.Getenv("PORT"), nil)
-}
+	http.HandleFunc("/", endpoint_root.Handler)
+	http.HandleFunc("/health", endpoint_health.Handler)
 
-func usersHandler(w http.ResponseWriter, r *http.Request) {
-	users := []string{"Ale", "Mario"}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	json.NewEncoder(w).Encode(users)
+	log.Println("Server in ascolto su :8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
