@@ -1,6 +1,7 @@
 package anime_mappings
 
 import (
+	"encoding/json"
 	"testing"
 )
 
@@ -19,6 +20,13 @@ func TestGetMappingsFromAniListId(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
+	jsonData, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		t.Fatalf("failed to marshal result: %v", err)
+	}
+
+	t.Logf("Response:\n%s", jsonData)
+
 	if result.AniListID != 114745 {
 		t.Errorf("expected AniListId 114745, got %d", result.AniListID)
 	}
@@ -30,6 +38,13 @@ func TestGetMappingsFromMALId(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
+
+	jsonData, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		t.Fatalf("failed to marshal result: %v", err)
+	}
+
+	t.Logf("Response:\n%s", jsonData)
 
 	if result.MALID != 34599 {
 		t.Errorf("expected MALId 34599, got %d", result.MALID)

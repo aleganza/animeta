@@ -26,7 +26,7 @@ var Providers = []Provider{
 // media
 
 type Media struct {
-	// Titles   ?????????
+	Titles   []Title
 	Episodes map[string]Episode
 	// EpisodeCount int
 	// SpecialCount int
@@ -34,21 +34,19 @@ type Media struct {
 	// Mappings    Mappings
 }
 
-// type Titles map[string]string
-
-// type Title struct {
-// 	Name      string
-// 	Language  string
-// 	IsPrimary bool
-// 	IsAlias   bool
-// }
+type Title struct {
+	Name      string
+	Language  string
+	IsPrimary bool
+	IsAlias   bool
+}
 
 type Episode struct {
 	TvdbId int
 
 	SeasonNumber int
 	// Girls und Panzer has 5.5
-	Number       int
+	Number int
 
 	Thumbnail string
 	Title     string
