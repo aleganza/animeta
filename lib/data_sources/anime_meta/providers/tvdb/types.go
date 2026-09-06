@@ -7,17 +7,17 @@ type Client struct {
 }
 
 type LoginResponse struct {
-	Status string
+	Status string `json:"status"`
 	Data   struct {
-		Token string
-	}
+		Token string `json:"token"`
+	} `json:"data"`
 }
 
 // === MEDIA ===
 
 type TvdbResponse[T any] struct {
-	Status string
-	Data   T
+	Status string `json:"status"`
+	Data   T      `json:"data"`
 }
 
 type TvdbSeriesTranslationsResponse = TvdbResponse[TvdbSeriesTranslationsData]
@@ -25,68 +25,107 @@ type TvdbSeriesEpisodesResponse = TvdbResponse[TvdbSeriesEpisodesData]
 type TvdbMovieResponse = TvdbResponse[TvdbMovieData]
 
 type TvdbSeriesTranslationsData struct {
-	
+	ID                   int              `json:"id"`
+	Name                 string           `json:"name"`
+	Slug                 string           `json:"slug"`
+	Image                string           `json:"image"`
+	NameTranslations     []string         `json:"nameTranslations"`
+	OverviewTranslations []string         `json:"overviewTranslations"`
+	Aliases              []TvdbAlias      `json:"aliases"`
+	FirstAired           string           `json:"firstAired"`
+	LastAired            string           `json:"lastAired"`
+	NextAired            string           `json:"nextAired"`
+	Score                int              `json:"score"`
+	Status               TvdbStatus       `json:"status"`
+	OriginalCountry      string           `json:"originalCountry"`
+	OriginalLanguage     string           `json:"originalLanguage"`
+	DefaultSeasonType    int              `json:"defaultSeasonType"`
+	IsOrderRandomized    bool             `json:"isOrderRandomized"`
+	LastUpdated          string           `json:"lastUpdated"`
+	AverageRuntime       int              `json:"averageRuntime"`
+	Episodes             []TvdbEpisode    `json:"episodes"`
+	Overview             string           `json:"overview"`
+	Year                 string           `json:"year"`
+	Translations         TvdbTranslations `json:"translations"`
+}
+
+type TvdbTranslations struct {
+	NameTranslations     []TvdbNameTranslation     `json:"nameTranslations"`
+	OverviewTranslations []TvdbOverviewTranslation `json:"overviewTranslations"`
+	Aliases              []string                  `json:"aliases"`
+}
+
+type TvdbNameTranslation struct {
+	Name      string `json:"name"`
+	Language  string `json:"language"`
+	IsPrimary bool   `json:"isPrimary,omitempty"`
+	IsAlias   bool   `json:"isAlias,omitempty"`
+}
+
+type TvdbOverviewTranslation struct {
+	Overview  string `json:"overview"`
+	Language  string `json:"language"`
+	IsPrimary bool   `json:"isPrimary,omitempty"`
 }
 
 type TvdbSeriesEpisodesData struct {
-	ID                   int
-	Name                 string
-	Slug                 string
-	Image                string
-	NameTranslations     []string
-	OverviewTranslations []string
-	Aliases              []TvdbAlias
-	FirstAired           string
-	LastAired            string
-	NextAired            string
-	Score                int
-	Status               TvdbStatus
-	OriginalCountry      string
-	OriginalLanguage     string
-	DefaultSeasonType    int
-	IsOrderRandomized    bool
-	LastUpdated          string
-	AverageRuntime       int
-	Episodes             []TvdbEpisode
-	Overview             string
-	Year                 string
+	ID                   int           `json:"id"`
+	Name                 string        `json:"name"`
+	Slug                 string        `json:"slug"`
+	Image                string        `json:"image"`
+	NameTranslations     []string      `json:"nameTranslations"`
+	OverviewTranslations []string      `json:"overviewTranslations"`
+	Aliases              []TvdbAlias   `json:"aliases"`
+	FirstAired           string        `json:"firstAired"`
+	LastAired            string        `json:"lastAired"`
+	NextAired            string        `json:"nextAired"`
+	Score                int           `json:"score"`
+	Status               TvdbStatus    `json:"status"`
+	OriginalCountry      string        `json:"originalCountry"`
+	OriginalLanguage     string        `json:"originalLanguage"`
+	DefaultSeasonType    int           `json:"defaultSeasonType"`
+	IsOrderRandomized    bool          `json:"isOrderRandomized"`
+	LastUpdated          string        `json:"lastUpdated"`
+	AverageRuntime       int           `json:"averageRuntime"`
+	Episodes             []TvdbEpisode `json:"episodes"`
+	Overview             string        `json:"overview"`
+	Year                 string        `json:"year"`
 }
 
 type TvdbAlias struct {
-	Language string
-	Name     string
+	Language string `json:"language"`
+	Name     string `json:"name"`
 }
 
 type TvdbStatus struct {
-	ID          int
-	Name        string
-	RecordType  string
-	KeepUpdated bool
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	RecordType  string `json:"recordType"`
+	KeepUpdated bool   `json:"keepUpdated"`
 }
 
 type TvdbEpisode struct {
-	ID                   int
-	SeriesID             int
-	Name                 string
-	Aired                string
-	Runtime              int
-	NameTranslations     []string
-	Overview             string
-	OverviewTranslations []string
-	Image                string
-	ImageType            int
-	IsMovie              int
-	Seasons              any
-	Number               int
-	AbsoluteNumber       int
-	SeasonNumber         int
-	LastUpdated          string
-	FinaleType           *string
-	AirsBeforeSeason     int
-	AirsBeforeEpisode    int
-	Year                 string
+	ID                   int      `json:"id"`
+	SeriesID             int      `json:"seriesId"`
+	Name                 string   `json:"name"`
+	Aired                string   `json:"aired"`
+	Runtime              int      `json:"runtime"`
+	NameTranslations     []string `json:"nameTranslations"`
+	Overview             string   `json:"overview"`
+	OverviewTranslations []string `json:"overviewTranslations"`
+	Image                string   `json:"image"`
+	ImageType            int      `json:"imageType"`
+	IsMovie              int      `json:"isMovie"`
+	Seasons              any      `json:"seasons"`
+	Number               int      `json:"number"`
+	AbsoluteNumber       int      `json:"absoluteNumber"`
+	SeasonNumber         int      `json:"seasonNumber"`
+	LastUpdated          string   `json:"lastUpdated"`
+	FinaleType           *string  `json:"finaleType"`
+	AirsBeforeSeason     int      `json:"airsBeforeSeason"`
+	AirsBeforeEpisode    int      `json:"airsBeforeEpisode"`
+	Year                 string   `json:"year"`
 }
 
 type TvdbMovieData struct {
-	
 }
