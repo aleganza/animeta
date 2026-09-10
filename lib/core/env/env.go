@@ -2,16 +2,41 @@ package env
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
 func Init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal(err)
+	root, err := findRoot()
+	if err != nil {
+		panic(err)
+	}
+
+	if err := godotenv.Load(filepath.Join(root, ".env")); err != nil {
+		panic(err)
+	}
+}
+
+func findRoot() (string, error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir, nil
+		}
+
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			return "", fmt.Errorf("project root (go.mod) not found")
+		}
+
+		dir = parent
 	}
 }
 
