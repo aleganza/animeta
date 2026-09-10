@@ -1,20 +1,15 @@
 package media
 
 import (
-	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 	"encoding/json"
 	"testing"
 )
 
+func TestGetSeriesFromTvdbId_InvalidId(t *testing.T) {
+
+}
+
 func TestGetSeriesFromTvdbId(t *testing.T) {
-	tvdbClient, err := tvdb.Authorize()
-	if err != nil {
-		t.Fatalf("TVDB authorize failed: %v", err)
-		return
-	}
-
-	NewClient(&tvdbClient)
-
 	result, err := FetchSeries("326109", "s")
 
 	if err != nil {
@@ -27,4 +22,31 @@ func TestGetSeriesFromTvdbId(t *testing.T) {
 	}
 
 	t.Logf("Response:\n%s", jsonData)
+
+	// test titles
+
+	testTitle := ""
+
+	for _, title := range result.Titles {
+		if title.Language == "ita" {
+			testTitle = title.Name
+		}
+	}
+
+	if testTitle != "Made in Abyss" {
+		t.Errorf(`italian name should be "Made in Abyss" but is "%s"`, testTitle)
+	}
+
+	// test episodes
+	testEpisodeTitle := ""
+
+	for _, episode := range result.Episodes {
+		if episode.TvdbId == 9220735 {
+			testEpisodeTitle = episode.Title
+		}
+	}
+
+	if testEpisodeTitle != "Gold" {
+		t.Errorf(`episode title for episode id 9220735 should be "Gold" but is "%s"`, testEpisodeTitle)
+	}
 }

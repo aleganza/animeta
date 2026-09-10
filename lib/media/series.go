@@ -3,12 +3,11 @@ package media
 import (
 	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 	"golang.org/x/sync/errgroup"
-	"strconv"
 )
 
-func FetchSeries(tvdbId string, tvdbSeasonId string) ([]Media, error) {
+func FetchSeries(tvdbId string, tvdbSeasonId string) (Media, error) {
 	if err := clientGate(); err != nil {
-		return nil, err
+		return Media{}, err
 	}
 
 	var (
@@ -31,7 +30,7 @@ func FetchSeries(tvdbId string, tvdbSeasonId string) ([]Media, error) {
 	})
 
 	if err := g.Wait(); err != nil {
-		return nil, err
+		return Media{}, err
 	}
 
 	var series Media
@@ -45,10 +44,10 @@ func FetchSeries(tvdbId string, tvdbSeasonId string) ([]Media, error) {
 		})
 	}
 
-	series.Episodes = make(map[string]Episode, len(tvdbEpisodes.Data.Episodes))
+	series.Episodes = make([]Episode, 0, len(tvdbEpisodes.Data.Episodes))
 
 	for _, episode := range tvdbEpisodes.Data.Episodes {
-		series.Episodes[strconv.Itoa(episode.ID)] = Episode{
+		series.Episodes = append(series.Episodes, Episode{
 			TvdbId:       episode.ID,
 			SeasonNumber: episode.SeasonNumber,
 			Number:       episode.Number,
@@ -58,8 +57,8 @@ func FetchSeries(tvdbId string, tvdbSeasonId string) ([]Media, error) {
 			Aired:        episode.Aired,
 			Runtime:      episode.Runtime,
 			Year:         episode.Year,
-		}
+		})
 	}
 
-	return []Media{series}, nil
+	return series, nil
 }

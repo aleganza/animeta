@@ -26,8 +26,8 @@ var Providers = []Provider{
 // media
 
 type Media struct {
-	Titles   []Title
-	Episodes map[string]Episode
+	Titles   []Title            `json:"titles"`
+	Episodes []Episode `json:"episodes"`
 	// EpisodeCount int
 	// SpecialCount int
 	// Images      []Image
@@ -35,47 +35,43 @@ type Media struct {
 }
 
 type Title struct {
-	Name      string
-	Language  string
-	IsPrimary bool
-	IsAlias   bool
+	Name      string `json:"name"`
+	Language  string `json:"language"`
+	IsPrimary bool   `json:"isPrimary"`
+	IsAlias   bool   `json:"isAlias"`
 }
 
 type Episode struct {
-	TvdbId int
+	TvdbId int `json:"tvdbId"`
 
-	SeasonNumber int
+	SeasonNumber int `json:"seasonNumber"`
 	// Girls und Panzer has 5.5
-	Number int
+	Number int `json:"number"`
 
-	Thumbnail string
-	Title     string
-	Overview  string
-	Aired     string
-	Runtime   int
-	Year      string
+	Thumbnail string `json:"thumbnail"`
+	Title     string `json:"title"`
+	Overview  string `json:"overview"`
+	Aired     string `json:"aired"`
+	Runtime   int    `json:"runtime"`
+	Year      string `json:"year"`
 }
 
 type Image struct {
-	CoverType string
-	URL       string
+	CoverType string `json:"coverType"`
+	URL       string `json:"url"`
 }
 
 type Mappings struct {
-	AnimePlanetID string
-	KitsuID       int
-	MalID         int
-	Type          string
-
-	AnilistID   int
-	AnisearchID int
-	AnidbID     int
-
-	NotifymoeID *int
-
-	LivechartID int
-
-	TheTVDBID    int
-	IMDBID       string
-	TheMovieDBID string
+	AnimePlanetID string `json:"animePlanetId"`
+	KitsuID       int    `json:"kitsuId"`
+	MalID         int    `json:"malId"`
+	Type          string `json:"type"`
+	AnilistID     int    `json:"anilistId"`
+	AnisearchID   int    `json:"anisearchId"`
+	AnidbID       int    `json:"anidbId"`
+	NotifymoeID   *int   `json:"notifymoeId"`
+	LivechartID   int    `json:"livechartId"`
+	TheTVDBID     int    `json:"theTvdbId"`
+	IMDBID        string `json:"imdbId"`
+	TheMovieDBID  string `json:"theMovieDbId"`
 }
