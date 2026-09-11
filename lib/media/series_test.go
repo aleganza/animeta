@@ -5,12 +5,13 @@ import (
 	"testing"
 )
 
-func TestGetSeriesFromTvdbId_InvalidId(t *testing.T) {
+// func TestGetSeriesFromTvdbId_InvalidId(t *testing.T) {
 
-}
+// }
 
 func TestGetSeriesFromTvdbId(t *testing.T) {
-	result, err := FetchSeries("326109", "s")
+	// season 1 of made in abyss
+	result, err := FetchSeries(326109, 1)
 
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -41,12 +42,12 @@ func TestGetSeriesFromTvdbId(t *testing.T) {
 	testEpisodeTitle := ""
 
 	for _, episode := range result.Episodes {
-		if episode.TvdbId == 9220735 {
+		if episode.TvdbId == 6180539 {
 			testEpisodeTitle = episode.Title
 		}
 	}
 
-	if testEpisodeTitle != "Gold" {
-		t.Errorf(`episode title for episode id 9220735 should be "Gold" but is "%s"`, testEpisodeTitle)
+	if testEpisodeTitle != "Departure" {
+		t.Errorf(`episode title for episode id 6180539 should be "Departure" but is "%s"`, testEpisodeTitle)
 	}
 }

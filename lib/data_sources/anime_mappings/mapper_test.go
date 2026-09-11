@@ -13,7 +13,7 @@ func TestGetMappingsFromProviderId_InvalidProvider(t *testing.T) {
 	}
 }
 
-func TestGetMappingsFromAniListId(t *testing.T) {
+func TestGetTVMappingsFromAniListId(t *testing.T) {
 	result, err := GetMappingsFromAniListId("114745")
 
 	if err != nil {
@@ -29,6 +29,25 @@ func TestGetMappingsFromAniListId(t *testing.T) {
 
 	if result.AniListID != 114745 {
 		t.Errorf("expected AniListId 114745, got %d", result.AniListID)
+	}
+}
+
+func TestGetMovieMappingsFromAniListId(t *testing.T) {
+	result, err := GetMappingsFromAniListId("100643")
+
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	jsonData, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		t.Fatalf("failed to marshal result: %v", err)
+	}
+
+	t.Logf("Response:\n%s", jsonData)
+
+	if result.AniListID != 100643 {
+		t.Errorf("expected AniListId 100643, got %d", result.AniListID)
 	}
 }
 

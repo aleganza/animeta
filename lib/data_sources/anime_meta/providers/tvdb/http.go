@@ -4,6 +4,7 @@ import (
 	"animeta/lib/core/fetch"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 // Source - https://stackoverflow.com/a/54088988
@@ -46,14 +47,17 @@ func fetchWrapper[T any](c *Client, url string) (TvdbResponse[T], error) {
 	return out, nil
 }
 
-func (c *Client) FetchSeriesTranslations(id string) (TvdbSeriesTranslationsResponse, error) {
-	return fetchWrapper[TvdbSeriesTranslationsData](c, BaseURL+"/series/"+id+"/extended?meta=translations&short=true")
+func (c *Client) FetchSeriesTranslations(id int) (TvdbSeriesTranslationsResponse, error) {
+	return fetchWrapper[TvdbSeriesTranslationsData](
+		c,
+		BaseURL+"/series/"+strconv.Itoa(id)+"/extended?meta=translations&short=true",
+	)
 }
 
-func (c *Client) FetchSeriesEpisodes(id string) (TvdbSeriesEpisodesResponse, error) {
-	return fetchWrapper[TvdbSeriesEpisodesData](c, BaseURL+"/series/"+id+"/episodes/default/eng")
+func (c *Client) FetchSeriesEpisodes(id int) (TvdbSeriesEpisodesResponse, error) {
+	return fetchWrapper[TvdbSeriesEpisodesData](c, BaseURL+"/series/"+strconv.Itoa(id)+"/episodes/default/eng")
 }
 
-func (c *Client) FetchMovieExtended(id string) (TvdbMovieResponse, error) {
-	return fetchWrapper[TvdbMovieData](c, BaseURL+"/movies/"+id+"/extended?meta=translations&short=false")
+func (c *Client) FetchMovieExtended(id int) (TvdbMovieResponse, error) {
+	return fetchWrapper[TvdbMovieData](c, BaseURL+"/movies/"+strconv.Itoa(id)+"/extended?meta=translations&short=false")
 }

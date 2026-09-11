@@ -6,7 +6,6 @@ import (
 	"animeta/lib/media"
 	"fmt"
 	"net/http"
-	"strconv"
 )
 
 // TODO: missing movies integration, only works with series
@@ -43,7 +42,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// find tvdb id
 
 	var tvdbId int
-	var tvdbSeasonId int
+	var tvdbSeasonNumber int
 
 	if provider == media.ProviderAniList {
 		anilist_mappings, err := anime_mappings.GetMappingsFromAniListId(id)
@@ -54,7 +53,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		tvdbId = anilist_mappings.TVDBID
-		tvdbSeasonId = anilist_mappings.Season.TVDB
+		tvdbSeasonNumber = anilist_mappings.Season.TVDB
 	} else if provider == media.ProviderMAL {
 		mal_mappings, err := anime_mappings.GetMappingsFromMALId(id)
 
@@ -64,12 +63,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		tvdbId = mal_mappings.TVDBID
-		tvdbSeasonId = mal_mappings.Season.TVDB
+		tvdbSeasonNumber = mal_mappings.Season.TVDB
 	}
 
 	// fetch series data from tvdb
 
-	data, err := media.FetchSeries(strconv.Itoa(tvdbId), strconv.Itoa(tvdbSeasonId))
+	data, err := media.FetchSeries(tvdbId, tvdbSeasonNumber)
 	if err != nil {
 		api.WriteError(w, http.StatusNotFound, err.Error())
 		return
