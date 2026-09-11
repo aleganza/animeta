@@ -128,4 +128,16 @@ type TvdbEpisode struct {
 }
 
 type TvdbMovieData struct {
+	ID           int              `json:"id"`
+	Image        string           `json:"image"`
+	Runtime      int              `json:"runtime"`
+	Year         string           `json:"year"`
+	Translations TvdbTranslations `json:"translations"`
+	FirstRelease TvdbMovieRelease `json:"first_release"`
+}
+
+type TvdbMovieRelease struct {
+	Country string  `json:"country"`
+	Date    string  `json:"date"`
+	Detail  *string `json:"detail"`
 }
