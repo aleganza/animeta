@@ -1,0 +1,1 @@
+api docs: https://thetvdb.github.io/v4-api/#/

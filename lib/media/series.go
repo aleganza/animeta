@@ -6,6 +6,7 @@ import (
 )
 
 // TODO: title is still anime title, not season title
+// how to: in tvdbTranslations go to data.seasons, get id from number, then create new endpoint /seasons/id
 func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 	if err := clientGate(); err != nil {
 		return Media{}, err
