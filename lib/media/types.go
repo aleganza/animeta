@@ -23,7 +23,7 @@ var Providers = []Provider{
 	ProviderMAL,
 }
 
-// SERIES
+// MEDIA
 
 type Media struct {
 	Titles   []Title   `json:"titles"`
@@ -35,8 +35,8 @@ type Media struct {
 }
 
 type Title struct {
-	Name      string `json:"name"`
-	Language  string `json:"language"`
+	Name     string `json:"name"`
+	Language string `json:"language"`
 	// IsPrimary bool   `json:"isPrimary"`
 	// IsAlias   bool   `json:"isAlias"`
 }
@@ -61,6 +61,8 @@ type Image struct {
 	URL       string `json:"url"`
 }
 
+// MAPPINGS
+
 type Mappings struct {
 	AnimePlanetID string `json:"animePlanetId"`
 	KitsuID       int    `json:"kitsuId"`
@@ -75,5 +77,3 @@ type Mappings struct {
 	IMDBID        string `json:"imdbId"`
 	TheMovieDBID  string `json:"theMovieDbId"`
 }
-
-// MOVIE

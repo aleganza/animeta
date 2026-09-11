@@ -1,11 +1,11 @@
 package api
 
 type ErrorResponse struct {
-	Status  int    `json:"status"`
+	Success bool   `json:"success"`
 	Message string `json:"message"`
 }
 
 type SuccessResponse[T any] struct {
-	Status  int `json:"status"`
-	Message T   `json:"data"`
+	Success bool `json:"success"`
+	Message T    `json:"data"`
 }

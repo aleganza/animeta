@@ -10,7 +10,7 @@ func WriteError(w http.ResponseWriter, status int, message string) {
 	w.WriteHeader(status)
 
 	json.NewEncoder(w).Encode(ErrorResponse{
-		Status:  status,
+		Success: false,
 		Message: message,
 	})
 }
@@ -20,7 +20,7 @@ func WriteSuccess[T any](w http.ResponseWriter, status int, message T) {
 	w.WriteHeader(status)
 
 	json.NewEncoder(w).Encode(SuccessResponse[T]{
-		Status:  status,
+		Success: true,
 		Message: message,
 	})
 }

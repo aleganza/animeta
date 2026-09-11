@@ -2,7 +2,6 @@ package endpoint_meta
 
 import (
 	"animeta/lib/api"
-	"animeta/lib/data_sources/anime_mappings"
 	"animeta/lib/media"
 	"fmt"
 	"net/http"
@@ -39,36 +38,35 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// find tvdb id
+	// find tvdb identifiers
 
-	var tvdbId int
-	var tvdbSeasonNumber int
+	adapter, ok := providerAdapters[provider]
 
-	if provider == media.ProviderAniList {
-		anilist_mappings, err := anime_mappings.GetMappingsFromAniListId(id)
-
-		if err != nil {
-			api.WriteError(w, http.StatusNotFound, err.Error())
-			return
-		}
-
-		tvdbId = anilist_mappings.TVDBID
-		tvdbSeasonNumber = anilist_mappings.Season.TVDB
-	} else if provider == media.ProviderMAL {
-		mal_mappings, err := anime_mappings.GetMappingsFromMALId(id)
-
-		if err != nil {
-			api.WriteError(w, http.StatusNotFound, err.Error())
-			return
-		}
-
-		tvdbId = mal_mappings.TVDBID
-		tvdbSeasonNumber = mal_mappings.Season.TVDB
+	if !ok {
+		api.WriteError(
+			w,
+			http.StatusBadRequest,
+			fmt.Sprintf(
+				`provider not supported. available providers: %s`,
+				media.GetProvidersPretty(),
+			),
+		)
+		return
 	}
 
-	// fetch series data from tvdb
+	mapping, err := adapter(id)
 
-	data, err := media.FetchSeries(tvdbId, tvdbSeasonNumber)
+	if err != nil {
+		api.WriteError(w, http.StatusNotFound, err.Error())
+		return
+	}
+
+	tvdbId := mapping.TVDBID
+	tvdbSeasonNumber := mapping.Season.TVDB
+
+	// get tvdb data
+
+	data, err := GetTvdbData(tvdbId, tvdbSeasonNumber)
 	if err != nil {
 		api.WriteError(w, http.StatusNotFound, err.Error())
 		return
