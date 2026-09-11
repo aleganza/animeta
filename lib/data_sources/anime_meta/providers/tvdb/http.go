@@ -58,6 +58,12 @@ func (c *Client) FetchSeriesEpisodes(id int) (TvdbSeriesEpisodesResponse, error)
 	return fetchWrapper[TvdbSeriesEpisodesData](c, BaseURL+"/series/"+strconv.Itoa(id)+"/episodes/default/eng")
 }
 
+// TODO: fetch season here
+
 func (c *Client) FetchMovieExtended(id int) (TvdbMovieResponse, error) {
 	return fetchWrapper[TvdbMovieData](c, BaseURL+"/movies/"+strconv.Itoa(id)+"/extended?meta=translations&short=false")
+}
+
+func (c *Client) FetchRemoteId(id string) (TvdbRemoteIdResponse, error) {
+	return fetchWrapper[TvdbRemoteIdData](c, BaseURL+"/search/remoteid/"+id)
 }

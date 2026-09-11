@@ -39,7 +39,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// find tvdb identifiers
-
 	adapter, ok := providerAdapters[provider]
 
 	if !ok {
@@ -62,11 +61,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tvdbId := mapping.TVDBID
-	tvdbSeasonNumber := mapping.Season.TVDB
+	
+	// standalone movies have no series/season mapping, so Season is nil.
+	tvdbSeasonNumber := 0
+	if mapping.Season != nil {
+			tvdbSeasonNumber = mapping.Season.TVDB
+	}
 
-	// get tvdb data
-
-	data, err := GetTvdbData(tvdbId, tvdbSeasonNumber)
+	data, err := GetTvdbData(tvdbId, tvdbSeasonNumber, mapping.IMDbID)
 	if err != nil {
 		api.WriteError(w, http.StatusNotFound, err.Error())
 		return

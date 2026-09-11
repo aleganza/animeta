@@ -23,6 +23,7 @@ type TvdbResponse[T any] struct {
 type TvdbSeriesTranslationsResponse = TvdbResponse[TvdbSeriesTranslationsData]
 type TvdbSeriesEpisodesResponse = TvdbResponse[TvdbSeriesEpisodesData]
 type TvdbMovieResponse = TvdbResponse[TvdbMovieData]
+type TvdbRemoteIdResponse = TvdbResponse[TvdbRemoteIdData]
 
 type TvdbSeriesTranslationsData struct {
 	ID                   int              `json:"id"`
@@ -140,4 +141,14 @@ type TvdbMovieRelease struct {
 	Country string  `json:"country"`
 	Date    string  `json:"date"`
 	Detail  *string `json:"detail"`
+}
+
+type TvdbRemoteIdData = []TvdbRemoteIdResult
+type TvdbRemoteIdResult struct {
+	Series *any `json:"series"`
+	Movie  *struct {
+		Id int `json:"id"`
+	} `json:"movie"`
+	Episode *any `json:"episode"`
+	// and more but not needed now
 }

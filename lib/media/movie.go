@@ -1,5 +1,26 @@
 package media
 
+import "fmt"
+
+func ResolveMovieId(imdbIds []string) (int, error) {
+	if err := clientGate(); err != nil {
+		return -1, err
+	}
+
+	for _, imdbId := range imdbIds {
+		res, err := client.tvdb.FetchRemoteId(imdbId)
+		if err != nil {
+			continue // prova l'id successivo
+		}
+		for _, r := range res.Data {
+			if r.Movie != nil {
+				return r.Movie.Id, nil
+			}
+		}
+	}
+	return 0, fmt.Errorf("no movie found for imdb ids %v", imdbIds)
+}
+
 func FetchMovie(tvdbId int) (Media, error) {
 	if err := clientGate(); err != nil {
 		return Media{}, err
