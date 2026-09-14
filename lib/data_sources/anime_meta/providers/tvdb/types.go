@@ -48,25 +48,7 @@ type TvdbSeriesTranslationsData struct {
 	Overview             string           `json:"overview"`
 	Year                 string           `json:"year"`
 	Translations         TvdbTranslations `json:"translations"`
-}
-
-type TvdbTranslations struct {
-	NameTranslations     []TvdbNameTranslation     `json:"nameTranslations"`
-	OverviewTranslations []TvdbOverviewTranslation `json:"overviewTranslations"`
-	Aliases              []string                  `json:"aliases"`
-}
-
-type TvdbNameTranslation struct {
-	Name      string `json:"name"`
-	Language  string `json:"language"`
-	IsPrimary bool   `json:"isPrimary,omitempty"`
-	IsAlias   bool   `json:"isAlias,omitempty"`
-}
-
-type TvdbOverviewTranslation struct {
-	Overview  string `json:"overview"`
-	Language  string `json:"language"`
-	IsPrimary bool   `json:"isPrimary,omitempty"`
+	Artworks             []TvdbArtwork    `json:"artworks"`
 }
 
 type TvdbSeriesEpisodesData struct {
@@ -91,6 +73,45 @@ type TvdbSeriesEpisodesData struct {
 	Episodes             []TvdbEpisode `json:"episodes"`
 	Overview             string        `json:"overview"`
 	Year                 string        `json:"year"`
+}
+
+type TvdbMovieData struct {
+	ID           int              `json:"id"`
+	Image        string           `json:"image"`
+	Runtime      int              `json:"runtime"`
+	Year         string           `json:"year"`
+	Translations TvdbTranslations `json:"translations"`
+	Artworks     []TvdbArtwork    `json:"artworks"`
+	FirstRelease TvdbMovieRelease `json:"first_release"`
+}
+
+type TvdbRemoteIdData = []TvdbRemoteIdResult
+type TvdbRemoteIdResult struct {
+	Series *any `json:"series"`
+	Movie  *struct {
+		Id int `json:"id"`
+	} `json:"movie"`
+	Episode *any `json:"episode"`
+	// and more but not needed now
+}
+
+type TvdbTranslations struct {
+	NameTranslations     []TvdbNameTranslation     `json:"nameTranslations"`
+	OverviewTranslations []TvdbOverviewTranslation `json:"overviewTranslations"`
+	Aliases              []string                  `json:"aliases"`
+}
+
+type TvdbNameTranslation struct {
+	Name      string `json:"name"`
+	Language  string `json:"language"`
+	IsPrimary bool   `json:"isPrimary,omitempty"`
+	IsAlias   bool   `json:"isAlias,omitempty"`
+}
+
+type TvdbOverviewTranslation struct {
+	Overview  string `json:"overview"`
+	Language  string `json:"language"`
+	IsPrimary bool   `json:"isPrimary,omitempty"`
 }
 
 type TvdbAlias struct {
@@ -128,13 +149,16 @@ type TvdbEpisode struct {
 	Year                 string   `json:"year"`
 }
 
-type TvdbMovieData struct {
-	ID           int              `json:"id"`
-	Image        string           `json:"image"`
-	Runtime      int              `json:"runtime"`
-	Year         string           `json:"year"`
-	Translations TvdbTranslations `json:"translations"`
-	FirstRelease TvdbMovieRelease `json:"first_release"`
+type TvdbArtwork struct {
+	Id           int    `json:"id"`
+	Image        string `json:"image"`
+	Thumbnail    string `json:"thumbnail"`
+	Language     string `json:"language"`
+	Type         int    `json:"type"`
+	Score        int    `json:"score"`
+	Width        int    `json:"width"`
+	Height       int    `json:"height"`
+	IncludesText bool   `json:"includesText"`
 }
 
 type TvdbMovieRelease struct {
@@ -143,12 +167,29 @@ type TvdbMovieRelease struct {
 	Detail  *string `json:"detail"`
 }
 
-type TvdbRemoteIdData = []TvdbRemoteIdResult
-type TvdbRemoteIdResult struct {
-	Series *any `json:"series"`
-	Movie  *struct {
-		Id int `json:"id"`
-	} `json:"movie"`
-	Episode *any `json:"episode"`
-	// and more but not needed now
+var TvdbArtworkTypes = map[int]string{
+	1:  "Banner",
+	2:  "Poster",
+	3:  "Background",
+	5:  "Icon",
+	6:  "Banner",
+	7:  "Poster",
+	8:  "Background",
+	10: "Icon",
+	11: "16:9 Screencap",
+	12: "4:3 Screencap",
+	13: "Photo",
+	14: "Poster",
+	15: "Background",
+	16: "Banner",
+	18: "Icon",
+	19: "Icon",
+	20: "Cinemagraph",
+	21: "Cinemagraph",
+	22: "ClearArt",
+	23: "ClearLogo",
+	24: "ClearArt",
+	25: "ClearLogo",
+	26: "Icon",
+	27: "Poster",
 }

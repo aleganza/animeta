@@ -1,6 +1,8 @@
 package media
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func ResolveMovieId(imdbIds []string) (int, error) {
 	if err := clientGate(); err != nil {
@@ -10,7 +12,7 @@ func ResolveMovieId(imdbIds []string) (int, error) {
 	for _, imdbId := range imdbIds {
 		res, err := client.tvdb.FetchRemoteId(imdbId)
 		if err != nil {
-			continue // prova l'id successivo
+			continue
 		}
 		for _, r := range res.Data {
 			if r.Movie != nil {
@@ -31,10 +33,10 @@ func FetchMovie(tvdbId int) (Media, error) {
 		return Media{}, err
 	}
 
-	var media Media
+	var movie Media
 
 	for _, nameTranslation := range tvdbMovie.Data.Translations.NameTranslations {
-		media.Titles = append(media.Titles, Title{
+		movie.Titles = append(movie.Titles, Title{
 			Name:     nameTranslation.Name,
 			Language: nameTranslation.Language,
 		})
@@ -57,7 +59,7 @@ func FetchMovie(tvdbId int) (Media, error) {
 		}
 	}
 
-	media.Episodes = []Episode{
+	movie.Episodes = []Episode{
 		{
 			TvdbId:       tvdbMovie.Data.ID,
 			SeasonNumber: 0,
@@ -71,5 +73,7 @@ func FetchMovie(tvdbId int) (Media, error) {
 		},
 	}
 
-	return media, nil
+	movie.Artworks = resolveTvdbArtworks(tvdbMovie.Data.Artworks)
+
+	return movie, nil
 }

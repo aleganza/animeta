@@ -41,8 +41,6 @@ func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 		series.Titles = append(series.Titles, Title{
 			Name:     nameTranslation.Name,
 			Language: nameTranslation.Language,
-			// IsPrimary: nameTranslation.IsPrimary,
-			// IsAlias:   nameTranslation.IsAlias,
 		})
 	}
 
@@ -64,6 +62,8 @@ func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 			})
 		}
 	}
+
+	series.Artworks = resolveTvdbArtworks(tvdbTranslations.Data.Artworks)
 
 	return series, nil
 }

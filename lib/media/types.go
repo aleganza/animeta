@@ -30,8 +30,7 @@ type Media struct {
 	Episodes []Episode `json:"episodes"`
 	// EpisodeCount int
 	// SpecialCount int
-	// Images      []Image
-	// Mappings    Mappings
+	Artworks Artworks `json:"artworks"`
 }
 
 type Title struct {
@@ -56,9 +55,11 @@ type Episode struct {
 	Year      string `json:"year"`
 }
 
-type Image struct {
-	CoverType string `json:"coverType"`
-	URL       string `json:"url"`
+type Artworks []Artwork
+
+type Artwork struct {
+	Type string `json:"type"`
+	URL  string `json:"url"`
 }
 
 // MAPPINGS

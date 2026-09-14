@@ -50,7 +50,7 @@ func fetchWrapper[T any](c *Client, url string) (TvdbResponse[T], error) {
 func (c *Client) FetchSeriesTranslations(id int) (TvdbSeriesTranslationsResponse, error) {
 	return fetchWrapper[TvdbSeriesTranslationsData](
 		c,
-		BaseURL+"/series/"+strconv.Itoa(id)+"/extended?meta=translations&short=true",
+		BaseURL+"/series/"+strconv.Itoa(id)+"/extended?meta=translations&short=false",
 	)
 }
 
