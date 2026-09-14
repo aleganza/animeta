@@ -3,22 +3,22 @@ package anime_mappings
 // anime-list-full.json
 
 type AnimeListFullData struct {
-	Type               AnimeType         `json:"type"`
-	AniDBID            int               `json:"anidb_id"`
-	AniListID          int               `json:"anilist_id"`
-	AnimeCountdownID   int               `json:"animecountdown_id"`
-	AnimeNewsNetworkID int               `json:"animenewsnetwork_id"`
-	AnimePlanetID      string            `json:"anime-planet_id"`
-	AniSearchID        int               `json:"anisearch_id"`
-	IMDbID             []string          `json:"imdb_id"`
-	KitsuID            int               `json:"kitsu_id"`
-	LiveChartID        int               `json:"livechart_id"`
-	MALID              int               `json:"mal_id"`
-	SimklID            int               `json:"simkl_id"`
-	TheMovieDBID       TheMovieDBID      `json:"themoviedb_id"`
-	TVDBID             int               `json:"tvdb_id"`
-	Season             *AnimeListSeason  `json:"season"`
-	EpisodeOffset      *EpisodeOffset    `json:"episode_offset"`
+	Type               AnimeType        `json:"type"`
+	AniDBID            int              `json:"anidb_id"`
+	AniListID          int              `json:"anilist_id"`
+	AnimeCountdownID   int              `json:"animecountdown_id"`
+	AnimeNewsNetworkID int              `json:"animenewsnetwork_id"`
+	AnimePlanetID      string           `json:"anime-planet_id"`
+	AniSearchID        int              `json:"anisearch_id"`
+	IMDbID             []string         `json:"imdb_id"`
+	KitsuID            int              `json:"kitsu_id"`
+	LiveChartID        int              `json:"livechart_id"`
+	MALID              int              `json:"mal_id"`
+	SimklID            int              `json:"simkl_id"`
+	TheMovieDBID       TheMovieDBID     `json:"themoviedb_id"`
+	TVDBID             int              `json:"tvdb_id"`
+	Season             *AnimeListSeason `json:"season"`
+	EpisodeOffset      *EpisodeOffset   `json:"episode_offset"`
 }
 
 type TheMovieDBID struct {

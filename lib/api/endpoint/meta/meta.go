@@ -53,26 +53,31 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mapping, err := adapter(id)
+	mappings, err := adapter(id)
 
 	if err != nil {
 		api.WriteError(w, http.StatusNotFound, err.Error())
 		return
 	}
 
-	tvdbId := mapping.TVDBID
+	tvdbId := mappings.TVDBID
 	
 	// standalone movies have no series/season mapping, so Season is nil.
 	tvdbSeasonNumber := 0
-	if mapping.Season != nil {
-			tvdbSeasonNumber = mapping.Season.TVDB
+	if mappings.Season != nil {
+			tvdbSeasonNumber = mappings.Season.TVDB
 	}
 
-	data, err := GetTvdbData(tvdbId, tvdbSeasonNumber, mapping.IMDbID)
+	tvdbData, err := GetTvdbData(tvdbId, tvdbSeasonNumber, mappings.IMDbID)
 	if err != nil {
 		api.WriteError(w, http.StatusNotFound, err.Error())
 		return
 	}
+
+	var data MetaResponse 
+
+	data.Media = tvdbData
+	data.Mappings = mappings
 
 	api.WriteSuccess(w, 200, data)
 }
