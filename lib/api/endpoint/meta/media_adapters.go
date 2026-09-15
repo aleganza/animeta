@@ -19,6 +19,9 @@ func GetTvdbData(tvdbId int, tvdbSeasonNumber int, imdbIs []string) (media.Media
 	if isMovie {
 		// map tvdb "season 0 series id" to tvdb movie id
 		tvdbMovieID, err := media.ResolveMovieId(imdbIs)
+		if err != nil {
+			return media.Media{}, err
+		}
 
 		movie, err := media.FetchMovie(tvdbMovieID)
 		if err != nil {
