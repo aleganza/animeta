@@ -20,15 +20,21 @@ func login() (string, error) {
 		"apikey": apiKey,
 	})
 
-	resp, err := http.Post(BaseURL+"/login", "application/json", bytes.NewReader(body))
+	opts := &fetch.RequestOptions{
+		Body: bytes.NewReader(body),
+		Headers: http.Header{
+			"Content-Type": {"application/json"},
+		},
+	}
+
+	resp, err := fetch.ExecuteRequest(http.MethodPost, BaseURL+"/login", opts)
 	if err != nil {
 		return "", fmt.Errorf("tvdb login request error: %w", err)
 	}
 
 	var loginResp LoginResponse
 
-	fetch.ExtractResponseJsonBody(resp, &loginResp)
-	if err != nil {
+	if err := fetch.ExtractResponseJsonBody(resp, &loginResp); err != nil {
 		return "", fmt.Errorf("tvdb login body parsing error: %w", err)
 	}
 
