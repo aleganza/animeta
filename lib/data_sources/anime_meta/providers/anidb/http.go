@@ -31,7 +31,7 @@ func NewClient() (Client, error) {
 func (c *Client) FetchAnime(aid int) (AnidbAnime, error) {
 	var out AnidbAnime
 
-	req, err := http.NewRequest("GET", BaseURL, nil)
+	req, err := fetch.Request("GET", BaseURL, nil)
 	if err != nil {
 		return out, err
 	}
