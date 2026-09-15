@@ -12,19 +12,14 @@ import (
 // Retrieved 2026-07-28, License - CC BY-SA 4.0
 
 func (c *Client) TvdbAuthenticatedFetch(method, path string, body io.Reader) (*http.Response, error) {
-	req, err := fetch.Request(method, path, body)
-	if err != nil {
-		return nil, err
+	opts := &fetch.RequestOptions{
+		Body: body,
+		Headers: http.Header{
+			"Authorization": {"Bearer " + c.Token},
+		},
 	}
 
-	req.Header.Add("Authorization", "Bearer "+c.Token)
-
-	resp, err := fetch.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
+	return fetch.MakeRequest(method, path, opts)
 }
 
 func fetchWrapper[T any](c *Client, url string) (TvdbResponse[T], error) {

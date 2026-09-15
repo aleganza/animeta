@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 )
 
 func NewClient() (Client, error) {
@@ -31,20 +32,14 @@ func NewClient() (Client, error) {
 func (c *Client) FetchAnime(aid int) (AnidbAnime, error) {
 	var out AnidbAnime
 
-	req, err := fetch.Request("GET", BaseURL, nil)
-	if err != nil {
-		return out, err
-	}
-
-	query := req.URL.Query()
+	query := url.Values{}
 	query.Set("request", "anime")
 	query.Set("client", c.Name)
 	query.Set("clientver", fmt.Sprintf("%d", c.Version))
 	query.Set("protover", "1")
 	query.Set("aid", fmt.Sprintf("%d", aid))
-	req.URL.RawQuery = query.Encode()
 
-	resp, err := fetch.Do(req)
+	resp, err := fetch.MakeRequest("GET", BaseURL+"?"+query.Encode(), nil)
 	if err != nil {
 		return out, err
 	}

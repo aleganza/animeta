@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func Do(req *http.Request) (*http.Response, error) {
+func do(req *http.Request) (*http.Response, error) {
 	log.Printf("%s %s", req.Method, req.URL)
 
 	resp, err := http.DefaultClient.Do(req)
@@ -24,7 +24,7 @@ func Do(req *http.Request) (*http.Response, error) {
 	return resp, nil
 }
 
-func Request(method, path string, body io.Reader) (*http.Request, error) {
+func request(method, path string, body io.Reader) (*http.Request, error) {
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
 		return nil, err
@@ -32,15 +32,14 @@ func Request(method, path string, body io.Reader) (*http.Request, error) {
 	return req, nil
 }
 
-// can't remember why I have Do and Request separated. using ExecuteRequest until I don't find out
-func ExecuteRequest(method, path string, opts *RequestOptions) (*http.Response, error) {
+func MakeRequest(method, path string, opts *RequestOptions) (*http.Response, error) {
 	var body io.Reader
 
 	if opts != nil {
 		body = opts.Body
 	}
 
-	req, err := Request(method, path, body)
+	req, err := request(method, path, body)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +48,7 @@ func ExecuteRequest(method, path string, opts *RequestOptions) (*http.Response, 
 		req.Header = opts.Headers
 	}
 
-	return Do(req)
+	return do(req)
 }
 
 func ExtractResponseJsonBody(resp *http.Response, dst any) error {

@@ -18,16 +18,15 @@ func NewClient() (Client, error) {
 }
 
 func (c *Client) fetch(path string, dst any) error {
-	req, err := fetch.Request("GET", BaseURL+path, nil)
-	if err != nil {
-		return err
-	}
+	opts := &fetch.RequestOptions{}
 
 	if c.ServerKey != "" {
-		req.Header.Set("X-Server-Key", c.ServerKey)
+		opts.Headers = http.Header{
+			"X-Server-Key": {c.ServerKey},
+		}
 	}
 
-	resp, err := fetch.Do(req)
+	resp, err := fetch.MakeRequest("GET", BaseURL+path, opts)
 	if err != nil {
 		return err
 	}

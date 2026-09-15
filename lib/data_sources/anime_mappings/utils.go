@@ -22,7 +22,7 @@ func (p MappingProvider) IsValid() bool {
 	}
 }
 
-// these providers' media require additional information/parsing, e.g. season id for tvdb 
+// these providers' media require additional information/parsing, e.g. season id for tvdb
 func (p MappingProvider) isMappingsRetrievalHandled() bool {
 	switch p {
 	case

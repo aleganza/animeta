@@ -27,7 +27,7 @@ func login() (string, error) {
 		},
 	}
 
-	resp, err := fetch.ExecuteRequest(http.MethodPost, BaseURL+"/login", opts)
+	resp, err := fetch.MakeRequest(http.MethodPost, BaseURL+"/login", opts)
 	if err != nil {
 		return "", fmt.Errorf("tvdb login request error: %w", err)
 	}
