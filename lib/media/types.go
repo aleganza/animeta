@@ -2,14 +2,16 @@ package media
 
 import (
 	"animeta/lib/data_sources/anime_meta/providers/anidb"
+	"animeta/lib/data_sources/anime_meta/providers/tenrai"
 	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 )
 
 // client
 
 type Client struct {
-	tvdb  *tvdb.Client
-	anidb *anidb.Client
+	tvdb   *tvdb.Client
+	anidb  *anidb.Client
+	tenrai *tenrai.Client
 }
 
 // media providers
@@ -58,6 +60,9 @@ type Episode struct {
 	Aired     string  `json:"aired"`
 	Runtime   int     `json:"runtime"`
 	Year      string  `json:"year"`
+
+	Filler bool `json:"isFiller"`
+	Recap  bool `json:"isRecap"`
 }
 
 type Artworks []Artwork

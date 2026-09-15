@@ -55,3 +55,28 @@ func (c *Client) FetchAnimeEpisodes(malId int, page int) (AnimeEpisodesResponse,
 
 	return out, nil
 }
+
+// FetchAllAnimeEpisodes fetches every page of episodes for an anime,
+// regardless of how many pages are needed.
+func (c *Client) FetchAllAnimeEpisodes(malId int) ([]AnimeEpisode, error) {
+	var episodes []AnimeEpisode
+
+	page := 1
+
+	for {
+		resp, err := c.FetchAnimeEpisodes(malId, page)
+		if err != nil {
+			return nil, err
+		}
+
+		episodes = append(episodes, resp.Data...)
+
+		if !resp.Pagination.HasNextPage {
+			break
+		}
+
+		page++
+	}
+
+	return episodes, nil
+}

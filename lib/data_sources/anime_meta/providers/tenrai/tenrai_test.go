@@ -5,14 +5,14 @@ import (
 	"testing"
 )
 
-func TestFetchAnimeEpisodes(t *testing.T) {
+func TestFetchAllAnimeEpisodes(t *testing.T) {
 	client, err := NewClient()
 	if err != nil {
 		t.Fatalf("failed to create client: %v", err)
 	}
 
 	// made in abyss (mal id 34599)
-	result, err := client.FetchAnimeEpisodes(34599, 1)
+	result, err := client.FetchAllAnimeEpisodes(34599)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -24,12 +24,12 @@ func TestFetchAnimeEpisodes(t *testing.T) {
 
 	t.Logf("Response:\n%s", jsonData)
 
-	if len(result.Data) == 0 {
+	if len(result) == 0 {
 		t.Fatal("expected at least 1 episode, got 0")
 	}
 
 	// every episode must carry the filler/recap flags
-	for _, episode := range result.Data {
+	for _, episode := range result {
 		// bool fields can't be asserted to a specific value, only presence matters
 		_ = episode.Filler
 		_ = episode.Recap

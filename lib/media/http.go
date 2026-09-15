@@ -3,6 +3,7 @@ package media
 import (
 	"animeta/lib/data_sources/anime_mappings"
 	"animeta/lib/data_sources/anime_meta/providers/anidb"
+	"animeta/lib/data_sources/anime_meta/providers/tenrai"
 	"fmt"
 	"strconv"
 )
@@ -44,6 +45,7 @@ func Fetch(provider Provider, id string) (FetchResult, error) {
 	}
 
 	enrichWithAnidb(&mediaData, mappings.AniDBID)
+	enrichWithTenrai(&mediaData, mappings.MALID)
 
 	return FetchResult{
 		Media:    mediaData,
@@ -101,6 +103,39 @@ func enrichWithAnidb(mediaData *Media, anidbId int) {
 			mediaData.Episodes[i].AnidbId = anidbEpisode.ID
 		}
 	}
+}
+
+func enrichWithTenrai(mediaData *Media, malId int) {
+	if client.tenrai == nil {
+		return
+	}
+
+	if malId == 0 {
+		return
+	}
+
+	episodes, err := client.tenrai.FetchAllAnimeEpisodes(malId)
+	if err != nil {
+		// keep filler/recap untouched when tenrai is unavailable
+		return
+	}
+
+	for i, episode := range mediaData.Episodes {
+		if tenraiEpisode, ok := findTenraiEpisodeByNumber(episodes, episode.Number); ok {
+			mediaData.Episodes[i].Filler = tenraiEpisode.Filler
+			mediaData.Episodes[i].Recap = tenraiEpisode.Recap
+		}
+	}
+}
+
+func findTenraiEpisodeByNumber(episodes []tenrai.AnimeEpisode, number int) (tenrai.AnimeEpisode, bool) {
+	for _, episode := range episodes {
+		if episode.MalId == number {
+			return episode, true
+		}
+	}
+
+	return tenrai.AnimeEpisode{}, false
 }
 
 func mapAnidbTitles(titles []anidb.AnidbTitle) []Title {

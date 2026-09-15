@@ -3,6 +3,7 @@ package main
 import (
 	"animeta/lib/core/env"
 	"animeta/lib/data_sources/anime_meta/providers/anidb"
+	"animeta/lib/data_sources/anime_meta/providers/tenrai"
 	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 	"animeta/lib/media"
 	"log"
@@ -22,5 +23,11 @@ func bootstrap() {
 		anidbClient = anidb.Client{}
 	}
 
-	media.NewClient(&tvdbClient, &anidbClient)
+	tenraiClient, err := tenrai.NewClient()
+	if err != nil {
+		log.Printf("Tenrai client not configured: %v", err)
+		tenraiClient = tenrai.Client{}
+	}
+
+	media.NewClient(&tvdbClient, &anidbClient, &tenraiClient)
 }
