@@ -33,13 +33,15 @@ func Fetch(provider Provider, id string) (FetchResult, error) {
 
 	tvdbId := mappings.TVDBID
 
-	// standalone movies have no series/season mapping, so Season is nil.
-	tvdbSeasonNumber := 0
+	isMovie := mappings.Type == anime_mappings.AnimeTypeMovie
+
+	// series without a season mapping default to season 1
+	tvdbSeasonNumber := 1
 	if mappings.Season != nil {
 		tvdbSeasonNumber = mappings.Season.TVDB
 	}
 
-	mediaData, err := fetchTvdbData(tvdbId, tvdbSeasonNumber, mappings.IMDbID)
+	mediaData, err := fetchTvdbData(tvdbId, tvdbSeasonNumber, isMovie, mappings.IMDbID)
 	if err != nil {
 		return FetchResult{}, err
 	}
@@ -54,9 +56,7 @@ func Fetch(provider Provider, id string) (FetchResult, error) {
 }
 
 // IMDb ids are used to resolve the TVDB movie id, since mappings only hold the series id.
-func fetchTvdbData(tvdbId int, tvdbSeasonNumber int, imdbIds []string) (Media, error) {
-	isMovie := tvdbSeasonNumber == 0
-
+func fetchTvdbData(tvdbId int, tvdbSeasonNumber int, isMovie bool, imdbIds []string) (Media, error) {
 	if isMovie {
 		// map tvdb "season 0 series id" to tvdb movie id
 		tvdbMovieID, err := ResolveMovieId(imdbIds)
