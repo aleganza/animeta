@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"animeta/lib/core/env"
+	"animeta/lib/data_sources/anime_meta/providers/anidb"
 	"animeta/lib/data_sources/anime_meta/providers/tvdb"
 )
 
@@ -17,7 +18,13 @@ func TestMain(m *testing.M) {
 		log.Fatalf("TVDB authorize failed: %v", err)
 	}
 
-	NewClient(&tvdbClient)
+	anidbClient, err := anidb.NewClient()
+	if err != nil {
+		log.Printf("AniDB client not configured: %v", err)
+		anidbClient = anidb.Client{}
+	}
+
+	NewClient(&tvdbClient, &anidbClient)
 
 	code := m.Run()
 

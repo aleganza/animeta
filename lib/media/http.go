@@ -2,7 +2,9 @@ package media
 
 import (
 	"animeta/lib/data_sources/anime_mappings"
+	"animeta/lib/data_sources/anime_meta/providers/anidb"
 	"fmt"
+	"strconv"
 )
 
 type ProviderAdapter func(string) (anime_mappings.AnimeListFullData, error)
@@ -41,6 +43,8 @@ func Fetch(provider Provider, id string) (FetchResult, error) {
 		return FetchResult{}, err
 	}
 
+	enrichWithAnidb(&mediaData, mappings.AniDBID)
+
 	return FetchResult{
 		Media:    mediaData,
 		Mappings: mappings,
@@ -72,4 +76,67 @@ func fetchTvdbData(tvdbId int, tvdbSeasonNumber int, imdbIds []string) (Media, e
 	}
 
 	return series, nil
+}
+
+func enrichWithAnidb(mediaData *Media, anidbId int) {
+	if client.anidb == nil {
+		return
+	}
+
+	if anidbId == 0 {
+		return
+	}
+
+	anidbAnime, err := client.anidb.FetchAnime(anidbId)
+	if err != nil {
+		// keep the tvdb titles as fallback when anidb is unavailable
+		return
+	}
+
+	mediaData.Titles = mapAnidbTitles(anidbAnime.Titles)
+
+	for i, episode := range mediaData.Episodes {
+		if anidbEpisode, ok := findAnidbEpisodeByNumber(anidbAnime.Episodes, episode.Number); ok {
+			mediaData.Episodes[i].Titles = mapAnidbEpTitles(anidbEpisode.Titles)
+			mediaData.Episodes[i].AnidbId = anidbEpisode.ID
+		}
+	}
+}
+
+func mapAnidbTitles(titles []anidb.AnidbTitle) []Title {
+	out := make([]Title, 0, len(titles))
+
+	for _, title := range titles {
+		out = append(out, Title{
+			Name:     title.Name,
+			Language: title.Lang,
+		})
+	}
+
+	return out
+}
+
+func mapAnidbEpTitles(titles []anidb.AnidbEpTitle) []Title {
+	out := make([]Title, 0, len(titles))
+
+	for _, title := range titles {
+		out = append(out, Title{
+			Name:     title.Name,
+			Language: title.Lang,
+		})
+	}
+
+	return out
+}
+
+func findAnidbEpisodeByNumber(episodes []anidb.AnidbEpisode, number int) (anidb.AnidbEpisode, bool) {
+	target := strconv.Itoa(number)
+
+	for _, episode := range episodes {
+		if episode.EpNo == target {
+			return episode, true
+		}
+	}
+
+	return anidb.AnidbEpisode{}, false
 }

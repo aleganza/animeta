@@ -1,11 +1,15 @@
 package media
 
-import "animeta/lib/data_sources/anime_meta/providers/tvdb"
+import (
+	"animeta/lib/data_sources/anime_meta/providers/anidb"
+	"animeta/lib/data_sources/anime_meta/providers/tvdb"
+)
 
 // client
 
 type Client struct {
-	tvdb *tvdb.Client
+	tvdb  *tvdb.Client
+	anidb *anidb.Client
 }
 
 // media providers
@@ -26,9 +30,9 @@ var Providers = []Provider{
 // MEDIA
 
 type Media struct {
-	Titles   []Title   `json:"titles"`
-	Episodes []Episode `json:"episodes"`
-	// EpisodeCount int
+	Titles       []Title   `json:"titles"`
+	Episodes     []Episode `json:"episodes"`
+	EpisodeCount int       `json:"episodeCount"`
 	// SpecialCount int
 	Artworks Artworks `json:"artworks"`
 }
@@ -41,18 +45,19 @@ type Title struct {
 }
 
 type Episode struct {
-	TvdbId int `json:"tvdbId"`
+	TvdbId  int `json:"tvdbId"`
+	AnidbId int `json:"anidbId"`
 
 	SeasonNumber int `json:"seasonNumber"`
 	// Girls und Panzer has 5.5
 	Number int `json:"number"`
 
-	Thumbnail string `json:"thumbnail"`
-	Title     string `json:"title"`
-	Overview  string `json:"overview"`
-	Aired     string `json:"aired"`
-	Runtime   int    `json:"runtime"`
-	Year      string `json:"year"`
+	Thumbnail string  `json:"thumbnail"`
+	Titles    []Title `json:"titles"`
+	Overview  string  `json:"overview"`
+	Aired     string  `json:"aired"`
+	Runtime   int     `json:"runtime"`
+	Year      string  `json:"year"`
 }
 
 type Artworks []Artwork

@@ -65,15 +65,21 @@ func FetchMovie(tvdbId int) (Media, error) {
 			SeasonNumber: 0,
 			Number:       1,
 			Thumbnail:    tvdbMovie.Data.Image,
-			Title:        title,
-			Overview:     overview,
-			Aired:        tvdbMovie.Data.FirstRelease.Date,
-			Runtime:      tvdbMovie.Data.Runtime,
-			Year:         tvdbMovie.Data.Year,
+			Titles: []Title{
+				{
+					Name:     title,
+					Language: "eng",
+				},
+			},
+			Overview: overview,
+			Aired:    tvdbMovie.Data.FirstRelease.Date,
+			Runtime:  tvdbMovie.Data.Runtime,
+			Year:     tvdbMovie.Data.Year,
 		},
 	}
 
 	movie.Artworks = resolveTvdbArtworks(tvdbMovie.Data.Artworks)
+	movie.EpisodeCount = len(movie.Episodes)
 
 	return movie, nil
 }

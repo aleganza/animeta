@@ -65,6 +65,10 @@ func (c *Client) FetchAnime(aid int) (AnidbAnime, error) {
 		return out, err
 	}
 
+	if out.ID == 0 {
+		return out, fmt.Errorf("anidb request failed: %s", string(decompressed))
+	}
+
 	return out, nil
 }
 

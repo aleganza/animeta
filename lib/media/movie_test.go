@@ -21,6 +21,12 @@ func TestGetMovieFromTvdbId(t *testing.T) {
 
 	t.Logf("Response:\n%s", jsonData)
 
+	// test episode count
+
+	if result.EpisodeCount != len(result.Episodes) {
+		t.Errorf(`episode count should be %d but is %d`, len(result.Episodes), result.EpisodeCount)
+	}
+
 	// test titles
 
 	testTitle := ""
@@ -51,8 +57,16 @@ func TestGetMovieFromTvdbId(t *testing.T) {
 		t.Errorf(`number should be 1 but is %d`, episode.Number)
 	}
 
-	if episode.Title != "Made in Abyss: Wandering Twilight" {
-		t.Errorf(`title should be "Made in Abyss: Wandering Twilight" but is "%s"`, episode.Title)
+	episodeTitle := ""
+
+	for _, title := range episode.Titles {
+		if title.Language == "eng" {
+			episodeTitle = title.Name
+		}
+	}
+
+	if episodeTitle != "Made in Abyss: Wandering Twilight" {
+		t.Errorf(`title should be "Made in Abyss: Wandering Twilight" but is "%s"`, episodeTitle)
 	}
 
 	if episode.Year != "2019" {

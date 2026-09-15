@@ -24,6 +24,12 @@ func TestGetSeriesFromTvdbId(t *testing.T) {
 
 	t.Logf("Response:\n%s", jsonData)
 
+	// test episode count
+
+	if result.EpisodeCount != len(result.Episodes) {
+		t.Errorf(`episode count should be %d but is %d`, len(result.Episodes), result.EpisodeCount)
+	}
+
 	// test titles
 
 	testTitle := ""
@@ -43,7 +49,11 @@ func TestGetSeriesFromTvdbId(t *testing.T) {
 
 	for _, episode := range result.Episodes {
 		if episode.TvdbId == 6180539 {
-			testEpisodeTitle = episode.Title
+			for _, title := range episode.Titles {
+				if title.Language == "eng" {
+					testEpisodeTitle = title.Name
+				}
+			}
 		}
 	}
 

@@ -54,16 +54,22 @@ func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 				SeasonNumber: episode.SeasonNumber,
 				Number:       episode.Number,
 				Thumbnail:    tvdb.CDNUrl + episode.Image,
-				Title:        episode.Name,
-				Overview:     episode.Overview,
-				Aired:        episode.Aired,
-				Runtime:      episode.Runtime,
-				Year:         episode.Year,
+				Titles: []Title{
+					{
+						Name:     episode.Name,
+						Language: "eng",
+					},
+				},
+				Overview: episode.Overview,
+				Aired:    episode.Aired,
+				Runtime:  episode.Runtime,
+				Year:     episode.Year,
 			})
 		}
 	}
 
 	series.Artworks = resolveTvdbArtworks(tvdbTranslations.Data.Artworks)
+	series.EpisodeCount = len(series.Episodes)
 
 	return series, nil
 }
