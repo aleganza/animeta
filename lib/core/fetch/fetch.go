@@ -2,6 +2,7 @@ package fetch
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io"
 	"log"
@@ -36,16 +37,16 @@ func ExecuteRequest(method, path string, opts *RequestOptions) (*http.Response, 
 	var body io.Reader
 
 	if opts != nil {
-			body = opts.Body
+		body = opts.Body
 	}
 
 	req, err := Request(method, path, body)
 	if err != nil {
-			return nil, err
+		return nil, err
 	}
 
 	if opts != nil && opts.Headers != nil {
-			req.Header = opts.Headers
+		req.Header = opts.Headers
 	}
 
 	return Do(req)
@@ -55,6 +56,17 @@ func ExtractResponseJsonBody(resp *http.Response, dst any) error {
 	defer resp.Body.Close()
 
 	err := json.NewDecoder(resp.Body).Decode(dst)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ExtractResponseXmlBody(resp *http.Response, dst any) error {
+	defer resp.Body.Close()
+
+	err := xml.NewDecoder(resp.Body).Decode(dst)
 	if err != nil {
 		return err
 	}

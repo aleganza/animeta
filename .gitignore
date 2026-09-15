@@ -27,6 +27,7 @@ go.work
 .env.*
 
 mock*.json
+mock*.xml
 
 # IDE
 .vscode/
