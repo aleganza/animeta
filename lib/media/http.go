@@ -35,8 +35,9 @@ func Fetch(provider Provider, id string) (FetchResult, error) {
 
 	isMovie := mappings.Type == anime_mappings.AnimeTypeMovie
 
-	// series without a season mapping default to season 1
-	tvdbSeasonNumber := 1
+	// a nil season means the entry matches the whole tvdb series,
+	// so 0 acts as a "fetch all seasons" sentinel for FetchSeries
+	tvdbSeasonNumber := 0
 	if mappings.Season != nil {
 		tvdbSeasonNumber = mappings.Season.TVDB
 	}

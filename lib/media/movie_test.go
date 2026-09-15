@@ -49,10 +49,6 @@ func TestGetMovieFromTvdbId(t *testing.T) {
 
 	episode := result.Episodes[0]
 
-	if episode.SeasonNumber != 0 {
-		t.Errorf(`season number should be 0 but is %d`, episode.SeasonNumber)
-	}
-
 	if episode.Number != 1 {
 		t.Errorf(`number should be 1 but is %d`, episode.Number)
 	}

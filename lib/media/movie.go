@@ -61,10 +61,9 @@ func FetchMovie(tvdbId int) (Media, error) {
 
 	movie.Episodes = []Episode{
 		{
-			TvdbId:       tvdbMovie.Data.ID,
-			SeasonNumber: 0,
-			Number:       1,
-			Thumbnail:    tvdbMovie.Data.Image,
+			TvdbId:    tvdbMovie.Data.ID,
+			Number:    1,
+			Thumbnail: tvdbMovie.Data.Image,
 			Titles: []Title{
 				{
 					Name:     title,

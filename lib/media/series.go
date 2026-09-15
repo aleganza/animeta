@@ -47,25 +47,37 @@ func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 	series.Episodes = make([]Episode, 0, len(tvdbEpisodes.Data.Episodes))
 
 	for _, episode := range tvdbEpisodes.Data.Episodes {
-
-		if episode.SeasonNumber == tvdbSeasonNumber {
-			series.Episodes = append(series.Episodes, Episode{
-				TvdbId:       episode.ID,
-				SeasonNumber: episode.SeasonNumber,
-				Number:       episode.Number,
-				Thumbnail:    tvdb.CDNUrl + episode.Image,
-				Titles: []Title{
-					{
-						Name:     episode.Name,
-						Language: "eng",
-					},
-				},
-				Overview: episode.Overview,
-				Aired:    episode.Aired,
-				Runtime:  episode.Runtime,
-				Year:     episode.Year,
-			})
+		// fetch-all: tvdbSeasonNumber == 0 means the whole series,
+		// skipping track-season (0) specials
+		if tvdbSeasonNumber > 0 && episode.SeasonNumber != tvdbSeasonNumber {
+			continue
 		}
+
+		if tvdbSeasonNumber == 0 && episode.SeasonNumber == 0 {
+			continue
+		}
+
+		num := episode.Number
+		if tvdbSeasonNumber == 0 {
+			// whole-series numbering matches anidb/tenrai global episode numbers
+			num = episode.AbsoluteNumber
+		}
+
+		series.Episodes = append(series.Episodes, Episode{
+			TvdbId:    episode.ID,
+			Number:    num,
+			Thumbnail: tvdb.CDNUrl + episode.Image,
+			Titles: []Title{
+				{
+					Name:     episode.Name,
+					Language: "eng",
+				},
+			},
+			Overview: episode.Overview,
+			Aired:    episode.Aired,
+			Runtime:  episode.Runtime,
+			Year:     episode.Year,
+		})
 	}
 
 	series.Artworks = resolveTvdbArtworks(tvdbTranslations.Data.Artworks)

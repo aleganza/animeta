@@ -50,7 +50,6 @@ type Episode struct {
 	TvdbId  int `json:"tvdbId"`
 	AnidbId int `json:"anidbId"`
 
-	SeasonNumber int `json:"seasonNumber"`
 	// Girls und Panzer has 5.5
 	Number int `json:"number"`
 
