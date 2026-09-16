@@ -26,7 +26,7 @@ func (c *Client) fetch(path string, dst any) error {
 		}
 	}
 
-	resp, err := fetch.MakeRequest("GET", BaseURL+path, opts)
+	resp, err := fetch.MakeCachedRequest("GET", BaseURL+path, opts)
 	if err != nil {
 		return err
 	}

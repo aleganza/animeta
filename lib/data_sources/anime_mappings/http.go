@@ -6,7 +6,7 @@ import (
 )
 
 func fetchWrapper[T any](path string) (T, error) {
-	resp, err := fetch.MakeRequest("GET", BaseUrl+path, nil)
+	resp, err := fetch.MakeCachedRequest("GET", BaseUrl+path, nil)
 	if err != nil {
 		var zero T
 		return zero, err

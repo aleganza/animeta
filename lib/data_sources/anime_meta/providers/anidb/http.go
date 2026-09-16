@@ -39,7 +39,7 @@ func (c *Client) FetchAnime(aid int) (AnidbAnime, error) {
 	query.Set("protover", "1")
 	query.Set("aid", fmt.Sprintf("%d", aid))
 
-	resp, err := fetch.MakeRequest("GET", BaseURL+"?"+query.Encode(), nil)
+	resp, err := fetch.MakeCachedRequest("GET", BaseURL+"?"+query.Encode(), nil)
 	if err != nil {
 		return out, err
 	}

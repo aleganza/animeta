@@ -19,7 +19,7 @@ func (c *Client) TvdbAuthenticatedFetch(method, path string, body io.Reader) (*h
 		},
 	}
 
-	return fetch.MakeRequest(method, path, opts)
+	return fetch.MakeCachedRequest(method, path, opts)
 }
 
 func fetchWrapper[T any](c *Client, url string) (TvdbResponse[T], error) {

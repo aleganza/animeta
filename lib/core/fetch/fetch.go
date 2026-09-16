@@ -10,8 +10,6 @@ import (
 )
 
 func do(req *http.Request) (*http.Response, error) {
-	log.Printf("%s %s", req.Method, req.URL)
-
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -33,6 +31,8 @@ func request(method, path string, body io.Reader) (*http.Request, error) {
 }
 
 func MakeRequest(method, path string, opts *RequestOptions) (*http.Response, error) {
+	log.Printf("request to: %s %s", method, path)
+	
 	var body io.Reader
 
 	if opts != nil {
