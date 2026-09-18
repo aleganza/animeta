@@ -16,8 +16,17 @@ type LoginResponse struct {
 // === MEDIA ===
 
 type TvdbResponse[T any] struct {
-	Status string `json:"status"`
-	Data   T      `json:"data"`
+	Status string    `json:"status"`
+	Data   T         `json:"data"`
+	Links  TvdbLinks `json:"links"`
+}
+
+type TvdbLinks struct {
+	Prev       *string `json:"prev"`
+	Self       string  `json:"self"`
+	Next       *string `json:"next"`
+	TotalItems int     `json:"total_items"`
+	PageSize   int     `json:"page_size"`
 }
 
 type TvdbSeriesTranslationsResponse = TvdbResponse[TvdbSeriesTranslationsData]

@@ -27,7 +27,7 @@ func FetchSeries(tvdbId int, tvdbSeasonNumber int) (Media, error) {
 
 	g.Go(func() error {
 		var err error
-		tvdbEpisodes, err = client.tvdb.FetchSeriesEpisodes(tvdbId)
+		tvdbEpisodes, err = client.tvdb.FetchAllSeriesEpisodes(tvdbId)
 		return err
 	})
 

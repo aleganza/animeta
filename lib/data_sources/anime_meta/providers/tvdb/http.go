@@ -49,8 +49,34 @@ func (c *Client) FetchSeriesTranslations(id int) (TvdbSeriesTranslationsResponse
 	)
 }
 
-func (c *Client) FetchSeriesEpisodes(id int) (TvdbSeriesEpisodesResponse, error) {
-	return fetchWrapper[TvdbSeriesEpisodesData](c, BaseURL+"/series/"+strconv.Itoa(id)+"/episodes/default/eng")
+func (c *Client) FetchSeriesEpisodes(id int, page int) (TvdbSeriesEpisodesResponse, error) {
+	return fetchWrapper[TvdbSeriesEpisodesData](
+		c,
+		BaseURL+"/series/"+strconv.Itoa(id)+"/episodes/default/eng?page="+strconv.Itoa(page),
+	)
+}
+
+func (c *Client) FetchAllSeriesEpisodes(id int) (TvdbSeriesEpisodesResponse, error) {
+	var out TvdbSeriesEpisodesResponse
+
+	page := 0
+
+	for {
+		resp, err := c.FetchSeriesEpisodes(id, page)
+		if err != nil {
+			return out, err
+		}
+
+		out.Data.Episodes = append(out.Data.Episodes, resp.Data.Episodes...)
+
+		if resp.Links.Next == nil {
+			break
+		}
+
+		page++
+	}
+
+	return out, nil
 }
 
 // TODO: fetch season here
